@@ -1,16 +1,21 @@
 using UnityEngine;
 
-public class GridService : MonoBehaviour
+namespace Scripts.Grid
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class GridService : MonoBehaviour, IService
     {
-        
-    }
+        [SerializeField] private GridHelper _gridHelper;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void Initialize()
+        {
+            IsInitialized = true;
+        }
+
+        public void DeInitialize()
+        {
+            IsInitialized = false;
+        }
+
+        public bool IsInitialized { get; set; }
     }
 }
