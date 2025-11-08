@@ -139,7 +139,7 @@ public class MovementController : MonoBehaviour
 
     public void FlyToPoint(Vector3 target)
     {
-        StartCoroutine(FlyRoutine(target));
+        StartCoroutine(RocketFlyRoutine(target + new Vector3(0, 1.5f, 0)));
     }
 
     private IEnumerator FlyRoutine(Vector3 target)
@@ -152,6 +152,54 @@ public class MovementController : MonoBehaviour
             yield return null;
         }
 
+        MovementAllowed = true;
+    }
+   
+    [SerializeField] private float acceleration = 30f;
+    [SerializeField] private float deceleration = 40f;
+    [SerializeField] private float maxSpeed = 20f;
+    [SerializeField] private float stopDistance = 0.3f;
+
+    private Vector3 velocity = Vector3.zero;
+
+    private IEnumerator RocketFlyRoutine(Vector3 target)
+    {
+        Vector3 startPos = transform.position;
+        Vector3 direction = (target - startPos).normalized;
+        float totalDistance = Vector3.Distance(startPos, target);
+
+        while (true)
+        {
+            // How far we've traveled in the flight direction
+            float traveled = Vector3.Dot(transform.position - startPos, direction);
+
+            // Stop if we've reached or passed the target distance
+            if (traveled >= totalDistance)
+                break;
+
+            float remaining = Mathf.Max(totalDistance - traveled, 0f);
+
+            // Compute target speed (slow down near the end)
+            float targetSpeed = maxSpeed;
+            if (remaining < (maxSpeed * maxSpeed) / (2f * deceleration))
+                targetSpeed = Mathf.Sqrt(2f * deceleration * remaining);
+
+            // Accelerate/decelerate smoothly
+            float currentSpeed = velocity.magnitude;
+            float speedDiff = targetSpeed - currentSpeed;
+            float accel = (speedDiff > 0 ? acceleration : deceleration) * Time.deltaTime;
+            currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, accel);
+
+            // Update velocity & move
+            velocity = direction * currentSpeed;
+            transform.position += velocity * Time.deltaTime;
+
+            yield return null;
+        }
+
+        // Snap to exact target and stop
+        transform.position = target;
+        velocity = Vector3.zero;
         MovementAllowed = true;
     }
 }
