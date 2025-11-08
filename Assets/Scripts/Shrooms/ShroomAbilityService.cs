@@ -31,7 +31,7 @@ namespace Scripts.Shrooms
             switch (selection)
             {
                 case ShroomAbilityType.Walker:
-                    var walkerAbility = new WalkerAbility(movementController.CurrentHittedEntity.GetCoordinate(), movementController.CameraForward);
+                    var walkerAbility = new WalkerAbility(movementController.CurrentHittedEntity.GetCoordinate(), movementController.CameraForward, movementController);
                     walkerAbility.Execute();
                     break;
                 case ShroomAbilityType.Watcher:

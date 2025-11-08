@@ -48,12 +48,13 @@ namespace Scripts.Grid
                 if (tile != null)
                 {
                     result.Add(tile);
-                    // Optional: stop when you hit a wall tile
-                    // if (tile.GridTileType == GridTileType.Wall) break;
+                    if (tile.GridTileType == GridTileType.Wall)
+                    {
+                        break;
+                    }
                 }
                 else
                 {
-                    // Outside the grid -> stop if you want
                     break;
                 }
             }
