@@ -135,7 +135,7 @@ public class MovementController : MonoBehaviour
         }
     }
     
-    [SerializeField] private float flySpeed = 10f;
+    private float _flySpeed = 80f;
 
     public void FlyToPoint(Vector3 target)
     {
@@ -148,7 +148,7 @@ public class MovementController : MonoBehaviour
         while (distance > 1.5f)
         {
             distance = Vector3.Distance(transform.position, target);
-            transform.position = Vector3.MoveTowards(transform.position, target +new Vector3(0, 1.5f, 0), flySpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, target +new Vector3(0, 1.5f, 0), _flySpeed * Time.deltaTime);
             yield return null;
         }
 
