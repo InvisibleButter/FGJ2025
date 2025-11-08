@@ -23,6 +23,7 @@ public class MovementController : MonoBehaviour
 
     public GridEntity CurrentHittedEntity => _currentHittedEntity;
     private GridEntity _currentHittedEntity;
+    public Vector3 CameraForward => cameraTransform.forward;
 
     void Awake()
     {
