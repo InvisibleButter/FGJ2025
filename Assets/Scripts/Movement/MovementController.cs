@@ -88,18 +88,27 @@ public class MovementController : MonoBehaviour
 
     public void OnAbility1(InputAction.CallbackContext context)
     {
+        if (context.phase != InputActionPhase.Performed)
+            return;
+        
         Raycast();
         ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Walker, this);
     }
     
     public void OnAbility2(InputAction.CallbackContext context)
     {
+        if (context.phase != InputActionPhase.Performed)
+            return;
+        
         Raycast();
         ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Watcher, this);
     }
     
     public void OnAbility3(InputAction.CallbackContext context)
     {
+        if (context.phase != InputActionPhase.Performed)
+            return;
+        
         ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Builder, this);
     }
 
