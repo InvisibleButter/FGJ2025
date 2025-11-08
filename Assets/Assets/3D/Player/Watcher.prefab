@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: -3938590711488576143}
   - component: {fileID: 3039301625817917962}
   - component: {fileID: 69326495550515227}
+  - component: {fileID: 2726725794432877293}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Watcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,9 +79,6 @@ MonoBehaviour:
   cameraTransform: {fileID: 700335086135863632}
   mouseSensitivity: 0.3
   rotationThreshold: 0.5
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &69326495550515227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,27 +240,24 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2c52647b-e601-41a7-a764-be8a3b30cd29
     m_ActionName: 'Player/Ability3[/Keyboard/3]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3039301625817917962}
-        m_TargetAssemblyTypeName: MovementController, Assembly-CSharp
-        m_MethodName: OnDebugCameraSwap
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: bc17e01e-6d7b-4f5e-99d3-6b314414fab3
-    m_ActionName: 'Player/DebugCam[/Keyboard/l]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &2726725794432877293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5575182428747449991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e36f4909ad5d53e4bb75f566583afcd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <WatcherCam>k__BackingField: {fileID: 0}
 --- !u!1 &5801689889407527575
 GameObject:
   m_ObjectHideFlags: 0

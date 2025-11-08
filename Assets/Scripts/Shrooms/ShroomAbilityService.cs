@@ -35,7 +35,9 @@ namespace Scripts.Shrooms
                     walkerAbility.Execute();
                     break;
                 case ShroomAbilityType.Watcher:
-                    var watcherAbility = new WatcherAbility(movementController.CurrentHittedEntity.GetCoordinate(), movementController.transform.forward);
+                    var watcherAbility = new WatcherAbility(movementController.transform.forward,
+                                                    movementController.cameraTransform.GetComponent<Camera>(),
+                                                              movementController.layerMask);
                     watcherAbility.Execute();
                     break;
             }

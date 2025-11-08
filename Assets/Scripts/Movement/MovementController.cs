@@ -24,6 +24,10 @@ public class MovementController : MonoBehaviour
     public GridEntity CurrentHittedEntity => _currentHittedEntity;
     private GridEntity _currentHittedEntity;
 
+    public LayerMask layerMask;
+    
+    private bool _isInWatcherMode = true;
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -35,6 +39,11 @@ public class MovementController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void Start()
+    {
+        ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
     }
 
     void Update()
@@ -110,6 +119,14 @@ public class MovementController : MonoBehaviour
             return;
         
         ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Builder, this);
+    }
+
+    public void OnDebugCameraSwap(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Performed)
+            return;
+        _isInWatcherMode=!_isInWatcherMode;
+        ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
     }
 
     private void Raycast()

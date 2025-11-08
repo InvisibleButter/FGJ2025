@@ -28,11 +28,16 @@ namespace Scripts.Grid
             _myceliumState = isStartMycelium ? MyceliumState.Standard : myceliumState;
             _myceliumBuildingType = myceliumBuildingType;
 
-            UpdateVisuals();
+            //UpdateVisuals();
         }
 
-        private void UpdateVisuals()
+        public void UpdateVisuals(bool isWatcher)
         {
+            if(isWatcher)
+            {
+                entityRenderer.enabled = true;
+                return;
+            }
             if(myceliumVisual != null)
             {
                 myceliumVisual.SetActive(_gridState == GridState.Occupied);
@@ -57,7 +62,7 @@ namespace Scripts.Grid
                 _myceliumState = MyceliumState.Standard;
             }
             
-            UpdateVisuals();
+            //UpdateVisuals();
         }
 
         public void ChangeMyceliumState(MyceliumState myceliumState, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None)
@@ -66,7 +71,7 @@ namespace Scripts.Grid
             _myceliumState = myceliumState;
             _myceliumBuildingType = myceliumBuildingType;
             
-            UpdateVisuals();
+            //UpdateVisuals();
         }
 
         public Vector2 GetDimension()

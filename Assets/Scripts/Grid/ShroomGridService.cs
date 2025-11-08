@@ -50,5 +50,18 @@ namespace Scripts.Grid
         }
 
         public bool IsInitialized { get; set; }
+
+        public List<GridEntity> GetBlockList()
+        {
+            return _gridHelper.GridTiles;
+        }
+
+        public void UpDateAllCells(bool isWatcher)
+        {
+            foreach (var tile in _gridHelper.GridTiles)
+            {
+                tile.UpdateVisuals(isWatcher);
+            }
+        }
     }
 }
