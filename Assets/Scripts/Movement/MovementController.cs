@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Scripts.Grid;
 using Scripts.Shrooms;
 using UnityEngine;
@@ -23,6 +24,9 @@ public class MovementController : MonoBehaviour
 
     public GridEntity CurrentHittedEntity => _currentHittedEntity;
     private GridEntity _currentHittedEntity;
+    public Vector3 CameraForward => cameraTransform.forward;
+
+    public bool MovementAllowed;
 
     public LayerMask layerMask;
     
@@ -37,6 +41,8 @@ public class MovementController : MonoBehaviour
         currentYaw = cameraTransform.eulerAngles.y;
         targetYaw = currentYaw;
 
+        MovementAllowed = true;
+        
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -87,11 +93,19 @@ public class MovementController : MonoBehaviour
     // === Input System ===
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (!MovementAllowed)
+        {
+            return;
+        }
         moveInput = context.ReadValue<Vector2>();
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
+        if (!MovementAllowed)
+        {
+            return;
+        } 
         lookInput = context.ReadValue<Vector2>();
     }
 
@@ -99,7 +113,7 @@ public class MovementController : MonoBehaviour
     {
         if (context.phase != InputActionPhase.Performed)
             return;
-        
+        MovementAllowed = false;
         Raycast();
         ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Walker, this);
     }
@@ -136,5 +150,25 @@ public class MovementController : MonoBehaviour
         {
             _currentHittedEntity = hit.transform.GetComponent<GridEntity>();
         }
+    }
+    
+    private float _flySpeed = 80f;
+
+    public void FlyToPoint(Vector3 target)
+    {
+        StartCoroutine(FlyRoutine(target));
+    }
+
+    private IEnumerator FlyRoutine(Vector3 target)
+    {
+        var distance = Vector3.Distance(transform.position, target);
+        while (distance > 1.5f)
+        {
+            distance = Vector3.Distance(transform.position, target);
+            transform.position = Vector3.MoveTowards(transform.position, target +new Vector3(0, 1.5f, 0), _flySpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        MovementAllowed = true;
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Scripts.Grid;
 using UnityEngine;
 
@@ -31,7 +31,7 @@ namespace Scripts.Shrooms
             switch (selection)
             {
                 case ShroomAbilityType.Walker:
-                    var walkerAbility = new WalkerAbility(movementController.CurrentHittedEntity.GetCoordinate());
+                    var walkerAbility = new WalkerAbility(movementController.CurrentHittedEntity.GetCoordinate(), movementController.CameraForward, movementController);
                     walkerAbility.Execute();
                     break;
                 case ShroomAbilityType.Watcher:
