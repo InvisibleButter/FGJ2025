@@ -1,3 +1,6 @@
+using System;
+using Scripts.Grid;
+using Scripts.Shrooms;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +20,9 @@ public class MovementController : MonoBehaviour
     private Vector2 lookInput;
     private float targetYaw;  // Smoothed target yaw rotation
     private float currentYaw;
+
+    public GridEntity CurrentHittedEntity => _currentHittedEntity;
+    private GridEntity _currentHittedEntity;
 
     void Awake()
     {
@@ -78,5 +84,30 @@ public class MovementController : MonoBehaviour
     public void OnLook(InputAction.CallbackContext context)
     {
         lookInput = context.ReadValue<Vector2>();
+    }
+
+    public void OnAbility1(InputAction.CallbackContext context)
+    {
+        Raycast();
+        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Walker, this);
+    }
+    
+    public void OnAbility2(InputAction.CallbackContext context)
+    {
+        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Watcher, this);
+    }
+    
+    public void OnAbility3(InputAction.CallbackContext context)
+    {
+        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Builder, this);
+    }
+
+    private void Raycast()
+    {
+        var ray = new Ray(transform.position, Vector3.down);
+        if (Physics.Raycast(ray, out var hit, 3))
+        {
+            _currentHittedEntity = hit.transform.GetComponent<GridEntity>();
+        }
     }
 }

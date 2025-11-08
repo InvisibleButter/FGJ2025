@@ -12,12 +12,14 @@ namespace Scripts.Grid
         [SerializeField] private MeshRenderer entityRenderer;
 
         public Vector2 _coordinate;
-        private GridState _gridState;
+        public GridState _gridState;
+        
         private MyceliumState _myceliumState;
         private MyceliumBuildingType _myceliumBuildingType;
         private bool _isDebugMode;
         
         public Vector2 Coordinate => _coordinate;
+        public GridState GridState => _gridState;
 
         public void Setup(Vector2 coordinate, GridState gridState, MyceliumState myceliumState = MyceliumState.None, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None, bool debugMode = false)
         {
@@ -48,7 +50,7 @@ namespace Scripts.Grid
         public void ChangeGridState(GridState gridState)
         {
             var oldState = _gridState;
-            if (oldState == _gridState) return;
+            if (oldState == gridState) return;
             
             _gridState = gridState;
             if (_gridState == GridState.Occupied)

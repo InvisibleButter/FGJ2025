@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
         {
             _serviceLocator.Add(service);
         }
+
+        AddAdditionalServices();
         
         _serviceLocator.InitializeAll();
     }
