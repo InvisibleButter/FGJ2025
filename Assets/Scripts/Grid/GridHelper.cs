@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Scripts.Grid
@@ -12,15 +15,30 @@ namespace Scripts.Grid
         [ContextMenu("Setup GridTiles")]
         public void SetGridTiles()
         {
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Setup Values");   // allow undo + mark for change tracking
+#endif
+            
             GridTiles = new List<GridEntity>();
             GridTiles.Clear();
             
             var children = GetComponentsInChildren<GridEntity>();
             foreach (var tile in children)
             {
+#if UNITY_EDITOR
+                Undo.RecordObject(this, "Setup Values");   // allow undo + mark for change tracking
+#endif
+
                 tile.Setup(CalculateCoordinate(tile), GridState.Locked, debugMode: isDebugMode);
                 GridTiles.Add(tile);
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(tile);              // ensure Unity saves the new values
+#endif
             }
+            
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);              // ensure Unity saves the new values
+#endif
         }
 
         private Vector2 CalculateCoordinate(GridEntity gridEntity)
