@@ -35,15 +35,17 @@ namespace Scripts.Shrooms
                     walkerAbility.Execute();
                     break;
                 case ShroomAbilityType.Watcher:
-                    var watcherAbility = new WatcherAbility(movementController.CurrentHittedEntity.Coordinate);
+                    var watcherAbility = new WatcherAbility(movementController.CurrentHittedEntity.Coordinate, movementController.transform.forward);
                     watcherAbility.Execute();
                     break;
             }
         }
 
-        public void AddWatcher(Vector2 gridIndex)
+        public void AddWatcher(Vector2 gridIndex, Vector3 rotation)
         {
-            ServiceLocator.Instance.GetService<ShroomGridService>().AddWatcherShroom(gridIndex);
+            var watcher = ServiceLocator.Instance.GetService<ShroomGridService>().AddWatcherShroom(gridIndex, rotation);
+            watcher.RefreshView();
+            _watchers.Add(watcher);
         }
 
         public bool IsInitialized { get; set; }

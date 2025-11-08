@@ -95,10 +95,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7102546538501256496}
+  - component: {fileID: 8603114050257537148}
   - component: {fileID: 3356273691124103594}
   - component: {fileID: 1160967544101107387}
-  - component: {fileID: 8603114050257537148}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TILE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,6 +122,27 @@ Transform:
   - {fileID: 5795226532817101706}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8603114050257537148
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6190258977791019395}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 2, y: 5, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &3356273691124103594
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -161,27 +182,7 @@ MonoBehaviour:
   myceliumVisual: {fileID: 4805854192804157621}
   entityRenderer: {fileID: 6337921342811623264}
   _coordinate: {x: 0, y: 0}
---- !u!65 &8603114050257537148
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6190258977791019395}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 2, y: 5, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  _gridState: 0
 --- !u!1001 &740384846683392623
 PrefabInstance:
   m_ObjectHideFlags: 0

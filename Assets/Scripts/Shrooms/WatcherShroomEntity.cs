@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using Scripts.Grid;
+using UnityEngine;
 
 namespace Scripts.Shrooms
 {
@@ -8,10 +11,15 @@ namespace Scripts.Shrooms
         public float detectionAngle = 45f;       // Half-angle of the cone (e.g., 45° means 90° total spread)
         public LayerMask targetLayer;            // Which layers count as "entities"
         public Transform forwardTransform;       // Optional: direction source (e.g., player camera or weapon)
-
-        void Update()
+        
+        public void RefreshView()
         {
             DetectEntities();
+        }
+
+        private void Update()
+        {
+          //  RefreshView();
         }
 
         void DetectEntities()
@@ -19,33 +27,39 @@ namespace Scripts.Shrooms
             // Step 1: Get all colliders in a sphere around you
             Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, targetLayer);
 
-            // Step 2: Check which ones are inside the cone
+            Vector3 origin = transform.position + new Vector3(0, 0.5f, 0);
+            Vector3 forwardDir = forwardTransform ? forwardTransform.forward : transform.forward;
+            
             foreach (Collider hit in hits)
             {
-                Vector3 directionToTarget = (hit.transform.position - transform.position).normalized;
+                var directionToTarget = (hit.transform.position - origin).normalized;
+                var angleToTarget = Vector3.Angle(forwardDir, directionToTarget);
 
-                // Determine what direction the cone faces
-                Vector3 forwardDir = forwardTransform ? forwardTransform.forward : transform.forward;
-
-                // Step 3: Check angle
-                float angleToTarget = Vector3.Angle(forwardDir, directionToTarget);
-
-                if (angleToTarget <= detectionAngle)
+                // Check if inside the detection cone
+                if (!(angleToTarget <= detectionAngle)) continue;
+                var gridEntity = hit.GetComponent<GridEntity>();
+                if (gridEntity == null) continue;
+                if (gridEntity.GridState != GridState.Locked)
                 {
-                    // Optionally: check line of sight
-                    if (Physics.Raycast(transform.position, directionToTarget, out RaycastHit rayHit, detectionRadius))
-                    {
-                        if (rayHit.collider == hit)
-                        {
-                            Debug.Log($"Detected entity: {hit.name}");
-                            Debug.DrawLine(transform.position, hit.transform.position, Color.green);
-                        }
-                    }
+                    continue;
                 }
-                else
+                // Check line of sight
+                if (!Physics.Raycast(origin, directionToTarget, out RaycastHit rayHit, detectionRadius)) continue;
+                    
+                // Only count it as detected if the ray actually hits this same collider
+                if (rayHit.collider == hit)
                 {
-                    Debug.DrawLine(transform.position, hit.transform.position, Color.red);
+                    if (gridEntity == null) continue;
+                    gridEntity.ChangeGridState(GridState.Unlocked);
+                    // Debug.Log($"✅ Detected visible entity: {hit.name}");
+                    // Debug.DrawLine(origin, hit.transform.position, Color.green);
                 }
+                // else
+                // {
+                //     // Something else is blocking the line of sight
+                //     Debug.Log($"🚫 {hit.name} is behind {rayHit.collider.name}");
+                //     Debug.DrawLine(origin, hit.transform.position, Color.red);
+                // }
             }
         }
         

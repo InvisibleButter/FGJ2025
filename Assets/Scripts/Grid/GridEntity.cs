@@ -41,7 +41,7 @@ namespace Scripts.Grid
 
             if (blocker != null)
             {
-                blocker.enabled = _gridState is GridState.Locked;
+                blocker.enabled = _gridState is GridState.Locked or GridState.Unlocked;
             }
 
             entityRenderer.enabled = _isDebugMode || _gridState is GridState.Unlocked or GridState.Occupied;
@@ -63,6 +63,7 @@ namespace Scripts.Grid
 
         public void ChangeMyceliumState(MyceliumState myceliumState, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None)
         {
+            _gridState = GridState.Occupied;
             _myceliumState = myceliumState;
             _myceliumBuildingType = myceliumBuildingType;
             
