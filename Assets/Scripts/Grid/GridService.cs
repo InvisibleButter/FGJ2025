@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scripts.Grid
@@ -5,10 +6,12 @@ namespace Scripts.Grid
     public class GridService : MonoBehaviour, IService
     {
         [SerializeField] private GridHelper _gridHelper;
-
+        
         public void Initialize()
         {
             IsInitialized = true;
+            
+            
         }
 
         public void DeInitialize()

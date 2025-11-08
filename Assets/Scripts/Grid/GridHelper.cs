@@ -6,6 +6,8 @@ namespace Scripts.Grid
     public class GridHelper : MonoBehaviour
     {
         public List<GridEntity> GridTiles;
+
+        [SerializeField] private bool isDebugMode;
         
         [ContextMenu("Setup GridTiles")]
         public void SetGridTiles()
@@ -16,7 +18,7 @@ namespace Scripts.Grid
             var children = GetComponentsInChildren<GridEntity>();
             foreach (var tile in children)
             {
-                tile.Setup(CalculateCoordinate(tile), GridState.Locked);
+                tile.Setup(CalculateCoordinate(tile), GridState.Locked, debugMode: isDebugMode);
                 GridTiles.Add(tile);
             }
         }

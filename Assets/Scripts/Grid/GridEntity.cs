@@ -6,22 +6,45 @@ namespace Scripts.Grid
     public class GridEntity : MonoBehaviour
     {
         public GridTileType GridTileType;
+        [SerializeField] private bool isStartMycelium;
+        [SerializeField] private BoxCollider blocker;
+        [SerializeField] private GameObject myceliumVisual;
+        [SerializeField] private MeshRenderer entityRenderer;
 
         public Vector2 _coordinate;
         private GridState _gridState;
         private MyceliumState _myceliumState;
         private MyceliumBuildingType _myceliumBuildingType;
+        private bool _isDebugMode;
         
         public Vector2 Coordinate => _coordinate;
 
-        public void Setup(Vector2 coordinate, GridState gridState, MyceliumState myceliumState = MyceliumState.None, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None)
+        public void Setup(Vector2 coordinate, GridState gridState, MyceliumState myceliumState = MyceliumState.None, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None, bool debugMode = false)
         {
+            _isDebugMode = debugMode;
             _coordinate  = coordinate;
-            _gridState = gridState;
-            _myceliumState = myceliumState;
+            _gridState = isStartMycelium ? GridState.Occupied : gridState;
+            _myceliumState = isStartMycelium ? MyceliumState.Standard : myceliumState;
             _myceliumBuildingType = myceliumBuildingType;
+
+            UpdateVisuals();
         }
-        
+
+        private void UpdateVisuals()
+        {
+            if(myceliumVisual != null)
+            {
+                myceliumVisual.SetActive(_gridState == GridState.Occupied);
+            }
+
+            if (blocker != null)
+            {
+                blocker.enabled = _gridState is GridState.Locked;
+            }
+
+            entityRenderer.enabled = _isDebugMode || _gridState is GridState.Unlocked or GridState.Occupied;
+        }
+
         public void ChangeGridState(GridState gridState)
         {
             var oldState = _gridState;
@@ -32,11 +55,15 @@ namespace Scripts.Grid
             {
                 _myceliumState = MyceliumState.Standard;
             }
+            
+            UpdateVisuals();
         }
 
         public void ChangeMyceliumState(MyceliumState myceliumState)
         {
             _myceliumState = myceliumState;
+            
+            UpdateVisuals();
         }
 
         public Vector2 GetDimension()
@@ -49,17 +76,6 @@ namespace Scripts.Grid
                     return new Vector2(2, 2);
             }
             return Vector2.one;
-        }
-
-        public Vector2 GetOffset()
-        {
-            switch (GridTileType)
-            {
-                case GridTileType.Wall:
-                    return new Vector2(0, 0.5f);
-            }
-            
-            return Vector2.zero;
         }
     }
 
