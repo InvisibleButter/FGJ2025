@@ -6,17 +6,17 @@ namespace Scripts.Grid
     public class GridEntity : MonoBehaviour
     {
         public GridTileType GridTileType;
-        
-        private int _index;
+
+        public Vector2 _coordinate;
         private GridState _gridState;
         private MyceliumState _myceliumState;
         private MyceliumBuildingType _myceliumBuildingType;
         
-        public int Index => _index;
+        public Vector2 Coordinate => _coordinate;
 
-        public void Setup(int index, GridState gridState, MyceliumState myceliumState = MyceliumState.None, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None)
+        public void Setup(Vector2 coordinate, GridState gridState, MyceliumState myceliumState = MyceliumState.None, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None)
         {
-            _index = index;
+            _coordinate  = coordinate;
             _gridState = gridState;
             _myceliumState = myceliumState;
             _myceliumBuildingType = myceliumBuildingType;
@@ -38,7 +38,29 @@ namespace Scripts.Grid
         {
             _myceliumState = myceliumState;
         }
-        
+
+        public Vector2 GetDimension()
+        {
+            switch (GridTileType)
+            {
+                case GridTileType.Ground:
+                    return new Vector2(2, 2);
+                case GridTileType.Wall:
+                    return new Vector2(2, 1);
+            }
+            return Vector2.one;
+        }
+
+        public Vector2 GetOffset()
+        {
+            switch (GridTileType)
+            {
+                case GridTileType.Wall:
+                    return new Vector2(0, 0.5f);
+            }
+            
+            return Vector2.zero;
+        }
     }
 
     public enum GridState
