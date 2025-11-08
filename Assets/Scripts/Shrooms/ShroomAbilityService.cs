@@ -1,4 +1,8 @@
-﻿namespace Scripts.Shrooms
+﻿using System.Collections.Generic;
+using Scripts.Grid;
+using UnityEngine;
+
+namespace Scripts.Shrooms
 {
     public enum ShroomAbilityType
     {
@@ -9,8 +13,11 @@
     
     public class ShroomAbilityService : IService
     {
+        private List<WatcherShroomEntity> _watchers;
+        
         public void Initialize()
         {
+            _watchers = new List<WatcherShroomEntity>();
             IsInitialized = true;
         }
 
@@ -27,7 +34,16 @@
                     var walkerAbility = new WalkerAbility(movementController.CurrentHittedEntity.Coordinate);
                     walkerAbility.Execute();
                     break;
+                case ShroomAbilityType.Watcher:
+                    var watcherAbility = new WatcherAbility(movementController.CurrentHittedEntity.Coordinate);
+                    watcherAbility.Execute();
+                    break;
             }
+        }
+
+        public void AddWatcher(Vector2 gridIndex)
+        {
+            ServiceLocator.Instance.GetService<ShroomGridService>().AddWatcherShroom(gridIndex);
         }
 
         public bool IsInitialized { get; set; }

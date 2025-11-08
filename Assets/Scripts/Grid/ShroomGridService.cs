@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Scripts.Shrooms;
 using UnityEngine;
 
 namespace Scripts.Grid
@@ -8,6 +9,7 @@ namespace Scripts.Grid
     public class ShroomGridService : MonoBehaviour, IService
     {
         [SerializeField] private GridHelper _gridHelper;
+        [SerializeField] private WatcherShroomEntity _watcherShroomPrefab;
 
         public List<GridEntity> GetAdjacentTilesOfState(Vector2 startCoordinate, GridState state)
         {
@@ -26,6 +28,14 @@ namespace Scripts.Grid
             }
             
             return result;
+        }
+
+        public WatcherShroomEntity AddWatcherShroom(Vector2 gridIndex)
+        {
+            var targetGridTile = _gridHelper.GridTiles.FirstOrDefault(e=> e.Coordinate == gridIndex);
+            var watcher = Instantiate(_watcherShroomPrefab, targetGridTile.gameObject.transform);
+            targetGridTile.ChangeMyceliumState(MyceliumState.Building, MyceliumBuildingType.Watcher);
+            return watcher.GetComponent<WatcherShroomEntity>();
         }
         
         public void Initialize()

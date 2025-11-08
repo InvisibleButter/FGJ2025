@@ -61,9 +61,10 @@ namespace Scripts.Grid
             UpdateVisuals();
         }
 
-        public void ChangeMyceliumState(MyceliumState myceliumState)
+        public void ChangeMyceliumState(MyceliumState myceliumState, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None)
         {
             _myceliumState = myceliumState;
+            _myceliumBuildingType = myceliumBuildingType;
             
             UpdateVisuals();
         }
@@ -109,6 +110,7 @@ namespace Scripts.Grid
     {
         None,
         Bridge,
-        Tower
+        Tower,
+        Watcher
     }
 }

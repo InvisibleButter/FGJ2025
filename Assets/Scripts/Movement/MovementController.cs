@@ -94,6 +94,7 @@ public class MovementController : MonoBehaviour
     
     public void OnAbility2(InputAction.CallbackContext context)
     {
+        Raycast();
         ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Watcher, this);
     }
     
