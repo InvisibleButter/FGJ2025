@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.invisiblebutter.unitycorecollection": {
-      "version": "https://github.com/InvisibleButter/UnityCoreCollection.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "0234d59894d28ff2462ebf82e1ac939afa8e3f03"
-    },
     "com.unity.ai.navigation": {
       "version": "2.0.9",
       "depth": 0,
