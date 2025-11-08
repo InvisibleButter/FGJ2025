@@ -46,7 +46,7 @@ namespace Scripts.Grid
                 case GridTileType.Ground:
                     return new Vector2(2, 2);
                 case GridTileType.Wall:
-                    return new Vector2(2, 1);
+                    return new Vector2(2, 2);
             }
             return Vector2.one;
         }

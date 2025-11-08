@@ -26,11 +26,9 @@ namespace Scripts.Grid
             var pos = gridEntity.gameObject.transform.position;
             var dimension = gridEntity.GetDimension();
             var offset = dimension / 2;
-            float epsilon = 0.0001f;
-            Debug.Log("** ofsset " + offset);
+            var epsilon = 0.0001f;
 
-            var coordinates = new Vector2(Mathf.FloorToInt((pos.x + offset.x - epsilon) / dimension.x), Mathf.FloorToInt((pos.z + offset.y- epsilon) / dimension.y));
-            Debug.Log("*** coordinates: " + coordinates);
+            var coordinates = new Vector2(Mathf.FloorToInt((pos.x + offset.x - epsilon) / dimension.x), Mathf.FloorToInt((pos.z +offset.y - epsilon) / dimension.y));
             return coordinates;
         }
     }
