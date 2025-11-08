@@ -18,8 +18,8 @@ namespace Scripts.Shrooms
         }
 
         private void Update()
-        {
-          //  RefreshView();
+        { 
+            //RefreshView();
         }
 
         void DetectEntities()
@@ -46,20 +46,22 @@ namespace Scripts.Shrooms
                 // Check line of sight
                 if (!Physics.Raycast(origin, directionToTarget, out RaycastHit rayHit, detectionRadius)) continue;
                     
+                var otherEntity = rayHit.collider.GetComponent<GridEntity>();
+                
                 // Only count it as detected if the ray actually hits this same collider
-                if (rayHit.collider == hit)
+                if (rayHit.collider == hit || (otherEntity != null && otherEntity.GridTileType == GridTileType.Ground))
                 {
                     if (gridEntity == null) continue;
                     gridEntity.ChangeGridState(GridState.Unlocked);
-                    // Debug.Log($"✅ Detected visible entity: {hit.name}");
+                    Debug.Log($"✅ Detected visible entity: {hit.name}");
                     // Debug.DrawLine(origin, hit.transform.position, Color.green);
                 }
-                // else
-                // {
-                //     // Something else is blocking the line of sight
-                //     Debug.Log($"🚫 {hit.name} is behind {rayHit.collider.name}");
-                //     Debug.DrawLine(origin, hit.transform.position, Color.red);
-                // }
+                else
+                {
+                    // Something else is blocking the line of sight
+                    Debug.Log($"🚫 {hit.name} is behind {rayHit.collider.name}");
+                    Debug.DrawLine(origin, hit.transform.position, Color.red);
+                }
             }
         }
         

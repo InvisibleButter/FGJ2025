@@ -31,11 +31,11 @@ namespace Scripts.Shrooms
             switch (selection)
             {
                 case ShroomAbilityType.Walker:
-                    var walkerAbility = new WalkerAbility(movementController.CurrentHittedEntity.Coordinate);
+                    var walkerAbility = new WalkerAbility(movementController.CurrentHittedEntity.GetCoordinate());
                     walkerAbility.Execute();
                     break;
                 case ShroomAbilityType.Watcher:
-                    var watcherAbility = new WatcherAbility(movementController.CurrentHittedEntity.Coordinate, movementController.transform.forward);
+                    var watcherAbility = new WatcherAbility(movementController.CurrentHittedEntity.GetCoordinate(), movementController.transform.forward);
                     watcherAbility.Execute();
                     break;
             }

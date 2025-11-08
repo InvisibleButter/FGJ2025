@@ -19,7 +19,7 @@ namespace Scripts.Grid
             {
                 for (int y = (int)startCoordinate.y - 1; y <= startCoordinate.y + 1; y++)
                 {
-                    var tile = allTiles.FirstOrDefault(e=> e.Coordinate == new Vector2Int(x, y));
+                    var tile = allTiles.FirstOrDefault(e=> e.GetCoordinate() == new Vector2Int(x, y));
                     if (tile != null)
                     {
                         result.Add(tile);
@@ -32,7 +32,7 @@ namespace Scripts.Grid
 
         public WatcherShroomEntity AddWatcherShroom(Vector2 gridIndex, Vector3 rotation)
         {
-            var targetGridTile = _gridHelper.GridTiles.FirstOrDefault(e=> e.Coordinate == gridIndex);
+            var targetGridTile = _gridHelper.GridTiles.FirstOrDefault(e=> e.GetCoordinate() == gridIndex);
             Quaternion spawnRot = Quaternion.LookRotation(rotation);
             var watcher = Instantiate(_watcherShroomPrefab, targetGridTile.gameObject.transform.position + new Vector3(0, 0.5f, 0), spawnRot);
             targetGridTile.ChangeMyceliumState(MyceliumState.Building, MyceliumBuildingType.Watcher);

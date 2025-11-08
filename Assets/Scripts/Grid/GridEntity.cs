@@ -5,20 +5,19 @@ namespace Scripts.Grid
 {
     public class GridEntity : MonoBehaviour
     {
+        [SerializeField] private Vector2 _coordinate;
         public GridTileType GridTileType;
         [SerializeField] private bool isStartMycelium;
         [SerializeField] private BoxCollider blocker;
         [SerializeField] private GameObject myceliumVisual;
         [SerializeField] private MeshRenderer entityRenderer;
-
-        public Vector2 _coordinate;
+        
         public GridState _gridState;
         
         private MyceliumState _myceliumState;
         private MyceliumBuildingType _myceliumBuildingType;
         private bool _isDebugMode;
         
-        public Vector2 Coordinate => _coordinate;
         public GridState GridState => _gridState;
 
         public void Setup(Vector2 coordinate, GridState gridState, MyceliumState myceliumState = MyceliumState.None, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None, bool debugMode = false)
@@ -80,6 +79,11 @@ namespace Scripts.Grid
                     return new Vector2(2, 2);
             }
             return Vector2.one;
+        }
+
+        public Vector2 GetCoordinate()
+        {
+            return _coordinate;
         }
     }
 
