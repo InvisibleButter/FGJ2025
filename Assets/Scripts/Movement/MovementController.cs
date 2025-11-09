@@ -43,20 +43,8 @@ public class MovementController : MonoBehaviour
 
         MovementAllowed = true;
         
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
-    }
-
-    private void Start()
-    {
-        // if(ServiceLocator.Instance.HasService<ShroomGridService>())
-        // {
-        //     ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
-        // }
-        // else
-        // {
-        //     ServiceLocator.Instance.OnAllInitilized += () => ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
-        // }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -88,13 +76,6 @@ public class MovementController : MonoBehaviour
 
         Vector3 move = (right * moveInput.x + forward * moveInput.y).normalized;
         controller.Move(move * moveSpeed * Time.deltaTime);
-
-        // Rotate player smoothly toward movement direction
-        if (move.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(move);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        }
     }
 
     // === Input System ===
