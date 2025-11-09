@@ -66,6 +66,10 @@ namespace Scripts.Grid
         {
             foreach (var tile in allTiles)
             {
+                if (tile.GridTileType == GridTileType.Ceiling)
+                {
+                    continue;
+                }
                 if (tile.GetCoordinate() == coord)
                     return tile;
             }
@@ -74,7 +78,7 @@ namespace Scripts.Grid
         
         public WatcherShroomEntity AddWatcherShroom(Vector2 gridIndex, Vector3 rotation)
         { 
-            var targetGridTile = _gridHelper.GridTiles.FirstOrDefault(e=> e.GetCoordinate() == gridIndex);
+            var targetGridTile = _gridHelper.GridTiles.FirstOrDefault(e=> e.GetCoordinate() == gridIndex && e.GridTileType != GridTileType.Ceiling);
             Quaternion spawnRot = Quaternion.LookRotation(rotation);
             var watcher = Instantiate(_watcherShroomPrefab, targetGridTile.gameObject.transform.position + new Vector3(0, 0.5f, 0), spawnRot);
           

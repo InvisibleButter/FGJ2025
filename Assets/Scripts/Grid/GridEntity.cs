@@ -143,7 +143,8 @@ namespace Scripts.Grid
     public enum GridTileType
     {
         Ground,
-        Wall
+        Wall,
+        Ceiling
     }
 
     public enum MyceliumState
