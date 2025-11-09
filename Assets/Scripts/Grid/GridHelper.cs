@@ -18,23 +18,28 @@ namespace Scripts.Grid
 #if UNITY_EDITOR
             Undo.RecordObject(this, "Setup Values");   // allow undo + mark for change tracking
 #endif
-            
+      
+            Debug.Log("Setup GridTiles");
             GridTiles = new List<GridEntity>();
             GridTiles.Clear();
-            
+
+            int count = 0;
             var children = GetComponentsInChildren<GridEntity>();
             foreach (var tile in children)
             {
 #if UNITY_EDITOR
                 Undo.RecordObject(this, "Setup Values");   // allow undo + mark for change tracking
 #endif
-
+                
                 tile.Setup(CalculateCoordinate(tile), GridState.Locked, debugMode: isDebugMode);
                 GridTiles.Add(tile);
+                count++;
 #if UNITY_EDITOR
                 EditorUtility.SetDirty(tile);              // ensure Unity saves the new values
 #endif
             }
+            
+            Debug.Log($"Finish setup {count} GridTiles");
             
 #if UNITY_EDITOR
             EditorUtility.SetDirty(this);              // ensure Unity saves the new values

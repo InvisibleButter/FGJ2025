@@ -30,7 +30,7 @@ namespace Scripts.Grid
             _myceliumState = isStartMycelium ? MyceliumState.Standard : myceliumState;
             _myceliumBuildingType = myceliumBuildingType;
             
-            UpdateVisuals(true);
+            UpdateVisuals(debugMode);
         }
 
         public Vector3[] GetVertices()
@@ -56,6 +56,10 @@ namespace Scripts.Grid
         {
             if(isWatcher)
             {
+                if (entityRenderer == null)
+                {
+                    Debug.LogWarning("** no renderer on " + gameObject.name);
+                }
                 entityRenderer.enabled = true;
                 return;
             }
