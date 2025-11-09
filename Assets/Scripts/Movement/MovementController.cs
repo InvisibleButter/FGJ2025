@@ -116,50 +116,31 @@ public class MovementController : MonoBehaviour
         lookInput = context.ReadValue<Vector2>();
     }
 
-    public void OnAbility1(InputAction.CallbackContext context)
+    public void OnInteract(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Performed)
             return;
+        
         MovementAllowed = false;
         Raycast();
-        if(_currentHittedEntity != null)
-        {
-            ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Walker);
-        }
-        else
-        {
-            Debug.Log("** doenst hit anything");
-            MovementAllowed = true;
-        }
-    }
-    
-    public void OnAbility2(InputAction.CallbackContext context)
-    {
-        if (context.phase != InputActionPhase.Performed)
-            return;
         
-        Raycast();
         if (_currentHittedEntity == null)
         {
+            MovementAllowed = true;
             return;
         }
-        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Watcher);
-    }
-    
-    public void OnAbility3(InputAction.CallbackContext context)
-    {
-        if (context.phase != InputActionPhase.Performed)
-            return;
-        
-        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Builder);
+        var currentType = ServiceLocator.Instance.GetService<ShroomSpawner>().CurrentShroomType;
+        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(currentType);
     }
 
     public void OnDebugCameraSwap(InputAction.CallbackContext context)
     {
+        #if UNITY_EDITOR
         if (context.phase != InputActionPhase.Performed)
             return;
         _isInWatcherMode=!_isInWatcherMode;
         ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
+        #endif
     }
 
     private void Raycast()

@@ -10,11 +10,16 @@ namespace Scripts.Shrooms
         [SerializeField] private MyGameManager gameManager;
         
         public MovementController CurrentShroom => _currentShroom;
-        
+
+        public ShroomAbilityType CurrentShroomType => _currentShroomType;
+
         private MovementController _currentShroom;
+        private ShroomAbilityType _currentShroomType;
+        
         public void OnShroomSelected(ShroomAbilityType shroomType)
         {
             var prefab = shroomType == ShroomAbilityType.Walker ? walkerShroomPrefab : watcherShroomPrefab;
+            _currentShroomType = shroomType;
             _currentShroom = Instantiate(prefab, spawnPoint).GetComponent<MovementController>();
             ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(shroomType == ShroomAbilityType.Watcher);
             gameManager.ChangeGameState(GameState.Running);
