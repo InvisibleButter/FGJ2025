@@ -67,12 +67,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239bab1179670174d90c528b5d1b51f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _coordinate: {x: 0, y: 0}
   GridTileType: 1
   isStartMycelium: 0
   blocker: {fileID: 0}
   myceliumVisual: {fileID: 0}
   entityRenderer: {fileID: 4490930560809262139}
-  _coordinate: {x: 0, y: 0}
+  meshFilter: {fileID: 97748257249991136}
   _gridState: 0
 --- !u!1001 &7196836269278189876
 PrefabInstance:
@@ -143,6 +144,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ccf5d14fcb113443b55829715892ed7, type: 3}
+--- !u!33 &97748257249991136 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 7114290969171050708, guid: 8ccf5d14fcb113443b55829715892ed7, type: 3}
+  m_PrefabInstance: {fileID: 7196836269278189876}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2878396291706957256 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4905073488798676220, guid: 8ccf5d14fcb113443b55829715892ed7, type: 3}

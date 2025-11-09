@@ -48,17 +48,24 @@ namespace Scripts.Shrooms
                 //Is in front
                 if (pointOnScreen.z < 0)
                 {
-                    Debug.Log("Behind: " + toCheck.name);
+                    //Debug.Log("Behind: " + toCheck.name);
                     return false;
                 }
         
                 //Is in FOV
-                if ((pointOnScreen.x < 0) || (pointOnScreen.x > Screen.width) ||
+                Plane[] planes = GeometryUtility.CalculateFrustumPlanes(_watcherCam);
+                Collider collider = toCheck.GetComponent<Collider>();
+                
+                
+                if (!GeometryUtility.TestPlanesAABB(planes , collider.bounds))
+                    return false;
+                
+                /*if ((pointOnScreen.x < 0) || (pointOnScreen.x > Screen.width) ||
                     (pointOnScreen.y < 0) || (pointOnScreen.y > Screen.height))
                 {
                     Debug.Log("OutOfBounds: " + toCheck.name);
                     return false;
-                }
+                }*/
         
                 RaycastHit hit;
                 Vector3 heading = toCheck.transform.position - _watcherCam.transform.position;
@@ -68,15 +75,45 @@ namespace Scripts.Shrooms
                 {
                     if (hit.transform.name != toCheck.name)
                     {
-                        
-                        Debug.DrawLine(_watcherCam.transform.position, toCheck.GetComponentInChildren<Renderer>().bounds.center, Color.red,10000f);
-                        Debug.LogError(toCheck.name + " occluded by " + hit.transform.name);
-                        
-                        Debug.Log(toCheck.name + " occluded by " + hit.transform.name);
-                        return false;
+                        //Debug.DrawLine(_watcherCam.transform.position, toCheck.GetComponentInChildren<Renderer>().bounds.center, Color.red,10000f);
+                        //Debug.LogError(toCheck.name + " occluded by " + hit.transform.name);
+                        //Debug.Log(toCheck.name + " occluded by " + hit.transform.name);
+                        Debug.Log("CHECKING CLOSER INSPECTION FOR: " + toCheck.name);
+                        return CloserInspection(toCheck.GetComponent<GridEntity>());
                     }
                 }
                 return true;
             }
+
+            private bool CloserInspection(GridEntity gridEntity,bool showDebugLines=false)
+            {
+                var vertecies = gridEntity.GetVertices();
+                var worldPosition = _watcherCam.transform.position;
+                foreach (var vertex in vertecies)
+                {
+                    RaycastHit hit;
+                    Vector3 heading = vertex - worldPosition;
+                    Vector3 direction = heading.normalized;// / heading.magnitude;
+                    if (Physics.Raycast(worldPosition,direction,out hit, _watcherCam.farClipPlane, _layerMask, QueryTriggerInteraction.Ignore ))
+                    {
+                        if (hit.transform.name != gridEntity.transform.name)
+                        {
+                            if (showDebugLines)
+                                Debug.DrawLine(_watcherCam.transform.position, vertex, Color.green, 10000f);
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
+           
     }
 }

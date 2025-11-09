@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Scripts.Grid
@@ -11,6 +12,7 @@ namespace Scripts.Grid
         [SerializeField] private BoxCollider blocker;
         [SerializeField] private GameObject myceliumVisual;
         [SerializeField] private MeshRenderer entityRenderer;
+        [SerializeField] private MeshFilter meshFilter;
         
         public GridState _gridState;
         
@@ -31,6 +33,27 @@ namespace Scripts.Grid
             //UpdateVisuals();
         }
 
+        public Vector3[] GetVertices()
+        {
+            var vertices = meshFilter.mesh.vertices.ToList();
+            var triangles = meshFilter.mesh.triangles;
+            for (int i = 0; i < triangles.Length; i += 3)
+            {
+                var center= (vertices[triangles[i]] + vertices[triangles[i + 1]] + vertices[triangles[i + 2]]) / 3;
+                vertices.Add(center);
+            }
+            vertices=vertices.Distinct().ToList();
+            var worldVertices= new Vector3[vertices.Count];
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                var vertex = vertices[i];
+                worldVertices[i] = meshFilter.transform.localToWorldMatrix.MultiplyPoint3x4(vertex);
+            }
+            return worldVertices;
+        }
+        
+        
+        
         public void UpdateVisuals(bool isWatcher)
         {
             if(isWatcher)
