@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Scripts.Grid;
 using UnityEngine;
 
 namespace Scripts.Shrooms
 {
+    [Serializable]
     public enum ShroomAbilityType
     {
         Walker = 1,
