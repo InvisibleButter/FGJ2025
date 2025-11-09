@@ -43,13 +43,20 @@ public class MovementController : MonoBehaviour
 
         MovementAllowed = true;
         
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
     }
 
     private void Start()
     {
-        ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
+        if(ServiceLocator.Instance.HasService<ShroomGridService>())
+        {
+            ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
+        }
+        else
+        {
+            ServiceLocator.Instance.OnAllInitilized += () => ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
+        }
     }
 
     void Update()
@@ -115,7 +122,15 @@ public class MovementController : MonoBehaviour
             return;
         MovementAllowed = false;
         Raycast();
-        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Walker, this);
+        if(_currentHittedEntity != null)
+        {
+            ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Walker, this);
+        }
+        else
+        {
+            Debug.Log("** doenst hit anything");
+            MovementAllowed = true;
+        }
     }
     
     public void OnAbility2(InputAction.CallbackContext context)
@@ -148,18 +163,31 @@ public class MovementController : MonoBehaviour
         var ray = new Ray(transform.position, Vector3.down);
         if (Physics.Raycast(ray, out var hit, 3))
         {
-            _currentHittedEntity = hit.transform.GetComponent<GridEntity>();
+            var component = hit.transform.GetComponent<GridEntity>();
+            if (component == null)
+            {
+                var maxTries = 3;
+                var current = hit.transform;
+                while (component == null || maxTries <= 0)
+                {
+                    maxTries--;
+                    current = current.parent;
+                    component = current.GetComponent<GridEntity>();
+                }
+            }
+
+            _currentHittedEntity = component;
         }
     }
     
     private float _flySpeed = 80f;
 
-    public void FlyToPoint(Vector3 target)
+    public void FlyToPoint(Vector3 target, Action onFinish)
     {
-        StartCoroutine(FlyRoutine(target));
+        StartCoroutine(FlyRoutine(target, onFinish));
     }
 
-    private IEnumerator FlyRoutine(Vector3 target)
+    private IEnumerator FlyRoutine(Vector3 target, Action onFinish)
     {
         var distance = Vector3.Distance(transform.position, target);
         while (distance > 1.5f)
@@ -169,6 +197,7 @@ public class MovementController : MonoBehaviour
             yield return null;
         }
 
+        onFinish?.Invoke();
         MovementAllowed = true;
     }
 }
