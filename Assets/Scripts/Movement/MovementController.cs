@@ -124,7 +124,7 @@ public class MovementController : MonoBehaviour
         Raycast();
         if(_currentHittedEntity != null)
         {
-            ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Walker, this);
+            ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Walker);
         }
         else
         {
@@ -139,7 +139,11 @@ public class MovementController : MonoBehaviour
             return;
         
         Raycast();
-        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Watcher, this);
+        if (_currentHittedEntity == null)
+        {
+            return;
+        }
+        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Watcher);
     }
     
     public void OnAbility3(InputAction.CallbackContext context)
@@ -147,7 +151,7 @@ public class MovementController : MonoBehaviour
         if (context.phase != InputActionPhase.Performed)
             return;
         
-        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Builder, this);
+        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Builder);
     }
 
     public void OnDebugCameraSwap(InputAction.CallbackContext context)
@@ -168,7 +172,7 @@ public class MovementController : MonoBehaviour
             {
                 var maxTries = 3;
                 var current = hit.transform;
-                while (component == null || maxTries <= 0)
+                while (component == null || maxTries <= 0 || current.parent == null)
                 {
                     maxTries--;
                     current = current.parent;

@@ -73,11 +73,12 @@ namespace Scripts.Grid
         }
         
         public WatcherShroomEntity AddWatcherShroom(Vector2 gridIndex, Vector3 rotation)
-        {
+        { 
             var targetGridTile = _gridHelper.GridTiles.FirstOrDefault(e=> e.GetCoordinate() == gridIndex);
             Quaternion spawnRot = Quaternion.LookRotation(rotation);
             var watcher = Instantiate(_watcherShroomPrefab, targetGridTile.gameObject.transform.position + new Vector3(0, 0.5f, 0), spawnRot);
-            targetGridTile.ChangeMyceliumState(MyceliumState.Building, MyceliumBuildingType.Watcher);
+          
+           // targetGridTile.ChangeMyceliumState(MyceliumState.Building, MyceliumBuildingType.Watcher);
             return watcher.GetComponent<WatcherShroomEntity>();
         }
         

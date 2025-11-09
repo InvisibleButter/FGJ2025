@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5327532121856577625
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7007080956241457415, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_Name
+      value: WatcherShroomEntity Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7007080956241457415, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4894182439655845462}
+  m_SourcePrefab: {fileID: 100100000, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+--- !u!4 &2565580163012361188 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7671309865777458109, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+  m_PrefabInstance: {fileID: 5327532121856577625}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2941155379789406558 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7007080956241457415, guid: 278fc3a5dc6de134d844edee4f538200, type: 3}
+  m_PrefabInstance: {fileID: 5327532121856577625}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4894182439655845462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2941155379789406558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c95a48ea7f9545ff84b18900a8691b67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 10
+  detectionAngle: 45
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  forwardTransform: {fileID: 2565580163012361188}
