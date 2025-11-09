@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 707621926165229155}
   - component: {fileID: 7427641776302676747}
   - component: {fileID: 2151472531442404656}
+  - component: {fileID: 5958860577484931724}
   m_Layer: 0
   m_Name: SERVICES
   m_TagString: Untagged
@@ -45,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21425ffca6b4e1694b8799ce8da95f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shroomSelection: {fileID: 0}
 --- !u!114 &2151472531442404656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,5 +59,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64865dadf690404c8ae604334e4b8206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxChargedDistance: 5
   _gridHelper: {fileID: 0}
   _watcherShroomPrefab: {fileID: -895365633751102225, guid: d3e27d18c887be64bad68bf0487972f0, type: 3}
+--- !u!114 &5958860577484931724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702105472665323526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a03d292df1c48bb86e721e61927d310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  watcherShroomPrefab: {fileID: 3391980738508499729, guid: 5b14c0a12bc62ec4aa92d84639c3b014, type: 3}
+  walkerShroomPrefab: {fileID: 5575182428747449991, guid: 406e444aad391db4ba0a7778cdf2d5b9, type: 3}
+  spawnPoint: {fileID: 0}
+  gameManager: {fileID: 7427641776302676747}

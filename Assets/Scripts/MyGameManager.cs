@@ -5,6 +5,7 @@ namespace Scripts
 {
     public enum GameState
     {
+        None,
         ShroomSelection,
         Running,
         GameOver,
@@ -25,8 +26,19 @@ namespace Scripts
         {
             base.OnAllInitialized();
 
-            State = GameState.ShroomSelection;
-            shroomSelection.Show();
+            ChangeGameState(GameState.ShroomSelection);
+        }
+
+        public void ChangeGameState(GameState newState)
+        {
+            State = newState;
+
+            switch (State)
+            {
+                case GameState.ShroomSelection:
+                    shroomSelection.Show();
+                    break;
+            }
         }
     }
 

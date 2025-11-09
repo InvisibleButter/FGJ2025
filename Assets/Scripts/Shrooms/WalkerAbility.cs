@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Scripts.Grid;
 using UnityEngine;
 
@@ -10,13 +11,15 @@ namespace Scripts.Shrooms
         private readonly Vector2 _startCoordinate;
         private readonly Vector3 _forwardDirection;
         private readonly MovementController _movementController;
+        private Action _action;
         
-        public WalkerAbility(Vector2 startCoordinate, Vector3 forwardDirection, MovementController movementController)
+        public WalkerAbility(MovementController movementController, Action onFinish)
         {
-            _startCoordinate = startCoordinate;
-            _forwardDirection = forwardDirection;
+            _startCoordinate = movementController.CurrentHittedEntity.GetCoordinate();
+            _forwardDirection = movementController.CameraForward;
             _movementController = movementController;
             _gridService = ServiceLocator.Instance.GetService<ShroomGridService>();
+            _action = onFinish;
         }
         
         public void Execute()
@@ -25,13 +28,13 @@ namespace Scripts.Shrooms
             
             foreach (var tile in toAdd)
             {
-                tile.ChangeGridState(GridState.Occupied);
+                tile.ChangeGridState(GridState.Occupied, true);
             }
 
             var target = toAdd.Last();
             if (target.GridTileType != GridTileType.Wall)
             {
-                _movementController.FlyToPoint(target.transform.position);
+                _movementController.FlyToPoint(target.transform.position, _action);
             }
             else
             {
@@ -41,7 +44,7 @@ namespace Scripts.Shrooms
                     return;
                 }
                 target = toAdd[^2];
-                _movementController.FlyToPoint(target.transform.position);
+                _movementController.FlyToPoint(target.transform.position, _action);
             }
         }
     }

@@ -18,7 +18,6 @@ public class ShroomSelectionView : MonoBehaviour
     {
         Hide();
         
-        //todo switch character prefab
-        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked((ShroomAbilityType)abilityType, null);
+        ServiceLocator.Instance.GetService<ShroomSpawner>().OnShroomSelected((ShroomAbilityType)abilityType);
     }
 }
