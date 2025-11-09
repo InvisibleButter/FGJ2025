@@ -1,4 +1,4 @@
-﻿
+
 using Scripts.Grid;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,16 +7,12 @@ namespace Scripts.Shrooms
 {
     public class WatcherAbility : IShroomAbility
     {
-        private Vector2 _startCoordinate;
-        private Vector3 _watchRotation;
         private float _watcherAngle = 45f;
         private Camera _watcherCam; 
         private LayerMask _layerMask;
         
-        public WatcherAbility ( Vector3 watcherDirection, Camera watcherCam, LayerMask layerMask)
+        public WatcherAbility (Camera watcherCam, LayerMask layerMask)
         {
-            _startCoordinate = watcherCam.transform.position;
-            _watchRotation = watcherDirection;
             _watcherCam = watcherCam;
             _layerMask = layerMask;
         }

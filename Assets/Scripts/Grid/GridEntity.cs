@@ -29,8 +29,8 @@ namespace Scripts.Grid
             _gridState = isStartMycelium ? GridState.Occupied : gridState;
             _myceliumState = isStartMycelium ? MyceliumState.Standard : myceliumState;
             _myceliumBuildingType = myceliumBuildingType;
-
-            //UpdateVisuals();
+            
+            UpdateVisuals(true);
         }
 
         public Vector3[] GetVertices()
@@ -51,8 +51,6 @@ namespace Scripts.Grid
             }
             return worldVertices;
         }
-        
-        
         
         public void UpdateVisuals(bool isWatcher)
         {

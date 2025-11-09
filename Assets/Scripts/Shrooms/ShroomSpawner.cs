@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Scripts.Grid;
+using UnityEngine;
 
 namespace Scripts.Shrooms
 {
@@ -15,7 +16,7 @@ namespace Scripts.Shrooms
         {
             var prefab = shroomType == ShroomAbilityType.Walker ? walkerShroomPrefab : watcherShroomPrefab;
             _currentShroom = Instantiate(prefab, spawnPoint).GetComponent<MovementController>();
-            
+            ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(shroomType == ShroomAbilityType.Watcher);
             gameManager.ChangeGameState(GameState.Running);
         }
 
