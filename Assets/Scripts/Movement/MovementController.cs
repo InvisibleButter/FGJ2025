@@ -43,13 +43,20 @@ public class MovementController : MonoBehaviour
 
         MovementAllowed = true;
         
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
     }
 
     private void Start()
     {
-        ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
+        if(ServiceLocator.Instance.HasService<ShroomGridService>())
+        {
+            ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
+        }
+        else
+        {
+            ServiceLocator.Instance.OnAllInitilized += () => ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
+        }
     }
 
     void Update()

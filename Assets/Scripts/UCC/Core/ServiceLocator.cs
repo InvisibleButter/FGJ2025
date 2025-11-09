@@ -36,6 +36,11 @@ public class ServiceLocator
         return serviceInstance;
     }
 
+    public bool HasService<T>() where T : IService
+    {
+        return _registeredServices.ContainsKey(typeof(T));
+    }
+
     public void Add(IService instance)
     {
         _registeredServices[instance.GetType()] = instance;
