@@ -21,6 +21,9 @@ public class MovementController : MonoBehaviour
     private Vector2 lookInput;
     private float targetYaw;  // Smoothed target yaw rotation
     private float currentYaw;
+    
+    private float targetPitch;
+    private float currentPitch;
 
     public GridEntity CurrentHittedEntity => _currentHittedEntity;
     private GridEntity _currentHittedEntity;
@@ -43,20 +46,8 @@ public class MovementController : MonoBehaviour
 
         MovementAllowed = true;
         
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
-    }
-
-    private void Start()
-    {
-        if(ServiceLocator.Instance.HasService<ShroomGridService>())
-        {
-            ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
-        }
-        else
-        {
-            ServiceLocator.Instance.OnAllInitilized += () => ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
-        }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -68,15 +59,21 @@ public class MovementController : MonoBehaviour
     private void HandleCameraRotation()
     {
         // Apply threshold to prevent tiny mouse movements
-        if (Mathf.Abs(lookInput.x) > rotationThreshold)
+        if (Mathf.Abs(lookInput.x) > rotationThreshold || Mathf.Abs(lookInput.y) > rotationThreshold)
         {
             targetYaw += lookInput.x * mouseSensitivity;
+            targetPitch -= lookInput.y * mouseSensitivity; // Invert Y for natural camera control
+            targetPitch = Mathf.Clamp(targetPitch, -45, 45); // Clamp vertical rotation
         }
 
-        // Smoothly rotate toward target yaw
+        // Smoothly rotate toward target yaw and pitch
         currentYaw = Mathf.LerpAngle(currentYaw, targetYaw, Time.deltaTime * rotationSpeed);
-        cameraTransform.rotation = Quaternion.Euler(0f, currentYaw, 0f);
+        currentPitch = Mathf.LerpAngle(currentPitch, targetPitch, Time.deltaTime * rotationSpeed);
+
+        // Apply rotation (pitch = x-axis, yaw = y-axis)
+        cameraTransform.rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
     }
+
 
     private void HandleMovement()
     {
@@ -88,13 +85,6 @@ public class MovementController : MonoBehaviour
 
         Vector3 move = (right * moveInput.x + forward * moveInput.y).normalized;
         controller.Move(move * moveSpeed * Time.deltaTime);
-
-        // Rotate player smoothly toward movement direction
-        if (move.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(move);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        }
     }
 
     // === Input System ===
@@ -116,46 +106,31 @@ public class MovementController : MonoBehaviour
         lookInput = context.ReadValue<Vector2>();
     }
 
-    public void OnAbility1(InputAction.CallbackContext context)
+    public void OnInteract(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Performed)
             return;
+        
         MovementAllowed = false;
         Raycast();
-        if(_currentHittedEntity != null)
+        
+        if (_currentHittedEntity == null)
         {
-            ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Walker, this);
-        }
-        else
-        {
-            Debug.Log("** doenst hit anything");
             MovementAllowed = true;
+            return;
         }
-    }
-    
-    public void OnAbility2(InputAction.CallbackContext context)
-    {
-        if (context.phase != InputActionPhase.Performed)
-            return;
-        
-        Raycast();
-        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Watcher, this);
-    }
-    
-    public void OnAbility3(InputAction.CallbackContext context)
-    {
-        if (context.phase != InputActionPhase.Performed)
-            return;
-        
-        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(ShroomAbilityType.Builder, this);
+        var currentType = ServiceLocator.Instance.GetService<ShroomSpawner>().CurrentShroomType;
+        ServiceLocator.Instance.GetService<ShroomAbilityService>().OnAbilityClicked(currentType);
     }
 
     public void OnDebugCameraSwap(InputAction.CallbackContext context)
     {
+        #if UNITY_EDITOR
         if (context.phase != InputActionPhase.Performed)
             return;
         _isInWatcherMode=!_isInWatcherMode;
         ServiceLocator.Instance.GetService<ShroomGridService>().UpDateAllCells(_isInWatcherMode);
+        #endif
     }
 
     private void Raycast()
@@ -168,7 +143,7 @@ public class MovementController : MonoBehaviour
             {
                 var maxTries = 3;
                 var current = hit.transform;
-                while (component == null || maxTries <= 0)
+                while (component == null || maxTries <= 0 || current.parent == null)
                 {
                     maxTries--;
                     current = current.parent;

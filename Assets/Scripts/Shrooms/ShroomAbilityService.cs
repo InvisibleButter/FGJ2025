@@ -28,7 +28,7 @@ namespace Scripts.Shrooms
             IsInitialized = false;
         }
 
-        public void OnAbilityClicked(ShroomAbilityType selection, MovementController movementController)
+        public void OnAbilityClicked(ShroomAbilityType selection)
         {
             var shroomSpawner = ServiceLocator.Instance.GetService<ShroomSpawner>();
             var current = shroomSpawner.CurrentShroom;
@@ -39,19 +39,16 @@ namespace Scripts.Shrooms
                     walkerAbility.Execute();
                     break;
                 case ShroomAbilityType.Watcher:
-                    var watcherAbility = new WatcherAbility(movementController.transform.forward,
-                                                    movementController.cameraTransform.GetComponent<Camera>(),
-                                                              movementController.layerMask);
+                    var watcherAbility = new WatcherAbility(current.cameraTransform.GetComponent<Camera>(), current.layerMask, current.CurrentHittedEntity.GetCoordinate());
                     watcherAbility.Execute();
                     shroomSpawner.DespawnShroom();
                     break;
             }
         }
 
-        public void AddWatcher(Vector2 gridIndex, Vector3 rotation)
+        public void AddWatcher(Vector2 position, Vector3 rotation)
         {
-            var watcher = ServiceLocator.Instance.GetService<ShroomGridService>().AddWatcherShroom(gridIndex, rotation);
-            watcher.RefreshView();
+            var watcher = ServiceLocator.Instance.GetService<ShroomGridService>().AddWatcherShroom(position, rotation);
             _watchers.Add(watcher);
         }
 

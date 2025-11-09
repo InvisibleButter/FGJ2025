@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Scripts.Grid;
+﻿using Scripts.Grid;
 using UnityEngine;
 
 namespace Scripts.Shrooms
@@ -14,12 +12,7 @@ namespace Scripts.Shrooms
         
         public void RefreshView()
         {
-            DetectEntities();
-        }
-
-        private void Update()
-        { 
-            //RefreshView();
+           // DetectEntities();
         }
 
         void DetectEntities()

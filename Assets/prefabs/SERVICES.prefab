@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shroomSelection: {fileID: 0}
+  gameOverView: {fileID: 0}
 --- !u!114 &2151472531442404656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxChargedDistance: 5
   _gridHelper: {fileID: 0}
-  _watcherShroomPrefab: {fileID: -895365633751102225, guid: d3e27d18c887be64bad68bf0487972f0, type: 3}
+  _watcherShroomPrefab: {fileID: 4894182439655845462, guid: 462cca7b45ebb024ca8c9b78a24acac1, type: 3}
 --- !u!114 &5958860577484931724
 MonoBehaviour:
   m_ObjectHideFlags: 0
