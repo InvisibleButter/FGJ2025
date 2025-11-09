@@ -182,7 +182,8 @@ MonoBehaviour:
   isStartMycelium: 1
   blocker: {fileID: 8603114050257537148}
   myceliumVisual: {fileID: 4805854192804157621}
-  entityRenderer: {fileID: 6337921342811623264}
+  entityRenderer:
+  - {fileID: 6337921342811623264}
   meshFilter: {fileID: 7565319398929500859}
   _gridState: 2
 --- !u!1 &8843776430104146707

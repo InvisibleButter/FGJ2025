@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Scripts.Grid
         [SerializeField] private bool isStartMycelium;
         [SerializeField] private BoxCollider blocker;
         [SerializeField] private GameObject myceliumVisual;
-        [SerializeField] private MeshRenderer entityRenderer;
+        [SerializeField] private List<MeshRenderer> entityRenderer;
         [SerializeField] private MeshFilter meshFilter;
         
         public GridState _gridState;
@@ -30,7 +31,7 @@ namespace Scripts.Grid
             _myceliumState = isStartMycelium ? MyceliumState.Standard : myceliumState;
             _myceliumBuildingType = myceliumBuildingType;
             
-            UpdateVisuals(true);
+            UpdateVisuals(debugMode);
         }
 
         public Vector3[] GetVertices()
@@ -56,7 +57,16 @@ namespace Scripts.Grid
         {
             if(isWatcher)
             {
-                entityRenderer.enabled = true;
+                if (entityRenderer == null)
+                {
+                    Debug.LogWarning("** no renderer on " + gameObject.name);
+                }
+
+                foreach (var meshRenderer in entityRenderer)
+                {
+                    meshRenderer.enabled = true;
+                }
+                // entityRenderer.enabled = true;
                 return;
             }
             if(myceliumVisual != null)
@@ -69,7 +79,10 @@ namespace Scripts.Grid
                 blocker.enabled = _gridState is GridState.Locked or GridState.Unlocked;
             }
 
-            entityRenderer.enabled = _isDebugMode || _gridState is GridState.Unlocked or GridState.Occupied;
+            foreach (var meshRenderer in entityRenderer)
+            {
+                meshRenderer.enabled = _isDebugMode || _gridState is GridState.Unlocked or GridState.Occupied;
+            }
         }
 
         public void ChangeGridState(GridState gridState, bool refreshVisuals = false)
