@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Scripts.Grid;
 using UnityEngine;
 
 namespace Scripts.Shrooms
 {
+    [Serializable]
     public enum ShroomAbilityType
     {
         Walker = 1,
@@ -28,10 +30,12 @@ namespace Scripts.Shrooms
 
         public void OnAbilityClicked(ShroomAbilityType selection, MovementController movementController)
         {
+            var shroomSpawner = ServiceLocator.Instance.GetService<ShroomSpawner>();
+            var current = shroomSpawner.CurrentShroom;
             switch (selection)
             {
                 case ShroomAbilityType.Walker:
-                    var walkerAbility = new WalkerAbility(movementController.CurrentHittedEntity.GetCoordinate(), movementController.CameraForward, movementController);
+                    var walkerAbility = new WalkerAbility(current, () => shroomSpawner.DespawnShroom());
                     walkerAbility.Execute();
                     break;
                 case ShroomAbilityType.Watcher:
@@ -39,6 +43,7 @@ namespace Scripts.Shrooms
                                                     movementController.cameraTransform.GetComponent<Camera>(),
                                                               movementController.layerMask);
                     watcherAbility.Execute();
+                    shroomSpawner.DespawnShroom();
                     break;
             }
         }

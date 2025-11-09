@@ -51,7 +51,7 @@ namespace Scripts.Grid
             entityRenderer.enabled = _isDebugMode || _gridState is GridState.Unlocked or GridState.Occupied;
         }
 
-        public void ChangeGridState(GridState gridState)
+        public void ChangeGridState(GridState gridState, bool refreshVisuals = false)
         {
             var oldState = _gridState;
             if (oldState == gridState) return;
@@ -62,7 +62,10 @@ namespace Scripts.Grid
                 _myceliumState = MyceliumState.Standard;
             }
             
-            //UpdateVisuals();
+            if(refreshVisuals)
+            {
+                UpdateVisuals(false);
+            }
         }
 
         public void ChangeMyceliumState(MyceliumState myceliumState, MyceliumBuildingType myceliumBuildingType = MyceliumBuildingType.None)
