@@ -21,6 +21,9 @@ public class MovementController : MonoBehaviour
     private Vector2 lookInput;
     private float targetYaw;  // Smoothed target yaw rotation
     private float currentYaw;
+    
+    private float targetPitch;
+    private float currentPitch;
 
     public GridEntity CurrentHittedEntity => _currentHittedEntity;
     private GridEntity _currentHittedEntity;
@@ -56,15 +59,21 @@ public class MovementController : MonoBehaviour
     private void HandleCameraRotation()
     {
         // Apply threshold to prevent tiny mouse movements
-        if (Mathf.Abs(lookInput.x) > rotationThreshold)
+        if (Mathf.Abs(lookInput.x) > rotationThreshold || Mathf.Abs(lookInput.y) > rotationThreshold)
         {
             targetYaw += lookInput.x * mouseSensitivity;
+            targetPitch -= lookInput.y * mouseSensitivity; // Invert Y for natural camera control
+            targetPitch = Mathf.Clamp(targetPitch, -45, 45); // Clamp vertical rotation
         }
 
-        // Smoothly rotate toward target yaw
+        // Smoothly rotate toward target yaw and pitch
         currentYaw = Mathf.LerpAngle(currentYaw, targetYaw, Time.deltaTime * rotationSpeed);
-        cameraTransform.rotation = Quaternion.Euler(0f, currentYaw, 0f);
+        currentPitch = Mathf.LerpAngle(currentPitch, targetPitch, Time.deltaTime * rotationSpeed);
+
+        // Apply rotation (pitch = x-axis, yaw = y-axis)
+        cameraTransform.rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
     }
+
 
     private void HandleMovement()
     {

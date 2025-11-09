@@ -39,6 +39,8 @@ namespace Scripts
             switch (State)
             {
                 case GameState.ShroomSelection:
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
                     gameOverView.Hide();
                     shroomSelection.Show();
                     break;
